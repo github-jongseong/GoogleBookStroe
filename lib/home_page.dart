@@ -11,14 +11,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent) {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent) {
         context.read<BookService>().getBookResult();
       }
     });
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    controller: _scrollController,
+                    controller: scrollController,
                     itemCount: bookService.bookResults.length,
                     itemBuilder: (context, index) {
                       var imageLink = bookService.bookResults[index].imageLink;
@@ -80,15 +80,15 @@ class _HomePageState extends State<HomePage> {
                         leadingImage = Image.asset(
                           "assets/noPhoto.jpg",
                           width: MediaQuery.of(context).size.width * 0.13,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          fit: BoxFit.fill,
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          fit: BoxFit.cover,
                         );
                       } else {
                         leadingImage = Image.network(
                           imageLink,
                           width: MediaQuery.of(context).size.width * 0.13,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          fit: BoxFit.fill,
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          fit: BoxFit.cover,
                         );
                       }
 
@@ -119,7 +119,9 @@ class _HomePageState extends State<HomePage> {
                                   bookService.bookResults[index].infoLink);
                             },
                           ),
-                          SizedBox(height: 16.0),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
                         ], // Column children
                       );
                     },
@@ -135,7 +137,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 }
